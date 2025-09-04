@@ -2,7 +2,7 @@
 deployment:
   tasks:
     # Caminhos (AJUSTE seu usuário)
-    - export REPO=/home/tmeuwebhost/repositories/deploy-lovable
+    - export REPO=/home/tmeuwebhost/repositories/bright-checkout-flow
     - export DEPLOY_PATH=/home/tmeuwebhost/public_html
 
     # Verifica se dist existe (buildado pelo GitHub Action)
