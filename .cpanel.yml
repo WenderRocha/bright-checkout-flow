@@ -1,0 +1,18 @@
+---
+deployment:
+  tasks:
+    # Caminhos (AJUSTE seu usuário)
+    - export REPO=/home/tmeuwebhost/repositories/deploy-lovable
+    - export DEPLOY_PATH=/home/tmeuwebhost/public_html
+
+    # Verifica se dist existe (buildado pelo GitHub Action)
+    - if [ ! -d "$REPO/dist" ]; then echo "ERRO: dist/ não existe. Aguarde o GitHub Action fazer o build." && exit 1; fi
+
+    # Limpa o destino
+    - /bin/rm -rf $DEPLOY_PATH/*
+
+    # Copia arquivos buildados
+    - /bin/cp -R $REPO/dist/* $DEPLOY_PATH/
+
+    # SPA fallback
+    - if [ ! -f "$DEPLOY_PATH/.htaccess" ]; then printf "%s\n" "RewriteEngine On" "RewriteBase /" "RewriteRule ^index\\.html$ - [L]" "RewriteCond %{REQUEST_FILENAME} !-f" "RewriteCond %{REQUEST_FILENAME} !-d" "RewriteRule . /index.html [L]" > "$DEPLOY_PATH/.htaccess"; fi
